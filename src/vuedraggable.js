@@ -90,22 +90,16 @@ const draggableComponent = defineComponent({
   },
 
   render() {
-    try {
-      this.error = false;
-      const { $slots, $attrs, tag, componentData, realList, getKey } = this;
-      const componentStructure = computeComponentStructure({
-        $slots,
-        tag,
-        realList,
-        getKey
-      });
-      this.componentStructure = componentStructure;
-      const attributes = getComponentAttributes({ $attrs, componentData });
-      return componentStructure.render(h, attributes);
-    } catch (err) {
-      this.error = true;
-      return h("pre", { style: { color: "red" } }, err.stack);
-    }
+    const { $slots, $attrs, tag, componentData, realList, getKey } = this;
+    const componentStructure = computeComponentStructure({
+      $slots,
+      tag,
+      realList,
+      getKey
+    });
+    this.componentStructure = componentStructure;
+    const attributes = getComponentAttributes({ $attrs, componentData });
+    return componentStructure.render(h, attributes);
   },
 
   created() {
@@ -117,10 +111,6 @@ const draggableComponent = defineComponent({
   },
 
   mounted() {
-    if (this.error) {
-      return;
-    }
-
     const { $attrs, $el, componentStructure } = this;
     componentStructure.updated();
 
